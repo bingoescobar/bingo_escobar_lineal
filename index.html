@@ -6,13 +6,16 @@
     <title>BINGO ESCOBAR - Sistema de Reservas</title>
     <style>
         :root {
-            --primary-color: #e74c3c;
-            --secondary-color: #2ecc71;
-            --danger-color: #c0392b;
-            --warning-color: #f39c12;
+            --primary-color: #d4af37;    /* Dorado mate principal */
+            --secondary-color: #2c2c2c;  /* Negro secundario */
+            --danger-color: #c41e3a;     /* Rojo tercer color */
+            --accent-color: #1e3a8a;     /* Azul cuarto color */
+            --warning-color: #e67e22;
             --light-color: #f8f9fa;
-            --dark-color: #2c3e50;
-            --gold-color: #ffd700;
+            --dark-color: #1a1a1a;
+            --gold-color: #d4af37;
+            --gold-light: #e6c86e;
+            --gold-dark: #b8941f;
         }
         
         * {
@@ -23,70 +26,98 @@
         }
         
         body {
-            background: linear-gradient(135deg, #1a2a6c, #b21f1f, #fdbb2d);
+            background: linear-gradient(135deg, #2c2c2c, #1a1a1a, #3a3a3a);
             background-attachment: fixed;
-            color: #333;
+            color: #e0e0e0;
             line-height: 1.6;
             min-height: 100vh;
+            display: flex;
+            flex-direction: column;
         }
         
         .container {
             max-width: 1200px;
             margin: 0 auto;
             padding: 20px;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
         }
         
         header {
-            background: linear-gradient(135deg, var(--primary-color), #c0392b);
-            color: white;
-            padding: 30px 0;
+            background: linear-gradient(135deg, var(--primary-color), var(--gold-dark));
+            color: var(--secondary-color);
+            padding: 40px 0 30px 0;
             text-align: center;
             border-radius: 15px;
             margin-bottom: 30px;
-            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
-            border: 3px solid var(--gold-color);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4);
+            border: 3px solid var(--gold-light);
             position: relative;
             overflow: hidden;
         }
         
-        header::before {
-            content: "🎰 🎲 🎯";
+        .header-emojis {
             position: absolute;
-            top: 10px;
-            left: 20px;
+            top: 15px;
+            left: 0;
+            right: 0;
+            display: flex;
+            justify-content: space-between;
+            padding: 0 20px;
             font-size: 1.5rem;
-            opacity: 0.8;
+            opacity: 0.9;
+            color: var(--secondary-color);
         }
         
-        header::after {
-            content: "🎯 🎲 🎰";
+        .admin-access-btn {
             position: absolute;
             top: 10px;
-            right: 20px;
-            font-size: 1.5rem;
-            opacity: 0.8;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(44, 44, 44, 0.3);
+            border: 2px solid var(--secondary-color);
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.8rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            z-index: 10;
+            color: var(--secondary-color);
+        }
+        
+        .admin-access-btn:hover {
+            background: rgba(44, 44, 44, 0.5);
+            transform: translateX(-50%) scale(1.1);
+            box-shadow: 0 0 15px rgba(212, 175, 55, 0.5);
         }
         
         .sync-status {
             position: fixed;
             top: 10px;
             right: 10px;
-            background: white;
+            background: var(--primary-color);
             padding: 5px 10px;
             border-radius: 15px;
             font-size: 0.8rem;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+            box-shadow: 0 2px 5px rgba(0,0,0,0.3);
             z-index: 1000;
-            border: 1px solid #ddd;
+            border: 1px solid var(--gold-light);
+            color: var(--secondary-color);
+            font-weight: 600;
         }
         
         .sync-status.connected {
-            background: var(--secondary-color);
+            background: var(--accent-color);
             color: white;
         }
         
         .sync-status.disconnected {
-            background: var(--warning-color);
+            background: var(--danger-color);
             color: white;
         }
         
@@ -104,37 +135,39 @@
             font-weight: 800;
             text-shadow: 3px 3px 0 rgba(0, 0, 0, 0.2);
             letter-spacing: 2px;
-            color: var(--gold-color);
+            color: var(--secondary-color);
+            margin-top: 10px;
         }
         
         .subtitle {
             font-size: 1.4rem;
             font-weight: 300;
             opacity: 0.9;
-            color: white;
+            color: var(--secondary-color);
         }
         
         h2 {
             color: var(--primary-color);
-            border-bottom: 2px solid #eee;
+            border-bottom: 2px solid var(--primary-color);
             padding-bottom: 10px;
             font-size: 1.8rem;
         }
         
         .card {
-            background: rgba(255, 255, 255, 0.95);
+            background: rgba(44, 44, 44, 0.9);
             border-radius: 15px;
             padding: 25px;
             margin-bottom: 25px;
-            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.4);
             transition: transform 0.3s;
             backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.3);
+            border: 1px solid var(--primary-color);
+            color: #e0e0e0;
         }
         
         .card:hover {
             transform: translateY(-5px);
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.25);
+            box-shadow: 0 10px 20px rgba(212, 175, 55, 0.2);
         }
         
         .admin-section {
@@ -142,7 +175,7 @@
         }
         
         .user-section {
-            border-top: 5px solid var(--secondary-color);
+            border-top: 5px solid var(--accent-color);
         }
         
         .form-group {
@@ -153,61 +186,74 @@
             display: block;
             margin-bottom: 8px;
             font-weight: 600;
-            color: var(--dark-color);
+            color: var(--primary-color);
         }
         
         input, select, button, textarea {
             width: 100%;
             padding: 12px;
-            border: 1px solid #ddd;
+            border: 1px solid #555;
             border-radius: 8px;
             font-size: 16px;
+            background: rgba(60, 60, 60, 0.8);
+            color: #e0e0e0;
         }
         
         input:focus, select:focus, textarea:focus {
             outline: none;
             border-color: var(--primary-color);
-            box-shadow: 0 0 0 3px rgba(231, 76, 60, 0.2);
+            box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.3);
+            background: rgba(70, 70, 70, 0.8);
+        }
+        
+        input::placeholder {
+            color: #999;
         }
         
         button {
-            background: linear-gradient(135deg, var(--primary-color), #c0392b);
-            color: white;
+            background: linear-gradient(135deg, var(--primary-color), var(--gold-dark));
+            color: var(--secondary-color);
             border: none;
             cursor: pointer;
             transition: all 0.3s;
             font-weight: 600;
-            border: 1px solid rgba(255, 255, 255, 0.2);
+            border: 1px solid var(--gold-light);
         }
         
         button:hover {
-            background: linear-gradient(135deg, #c0392b, var(--primary-color));
+            background: linear-gradient(135deg, var(--gold-dark), var(--primary-color));
             transform: translateY(-2px);
-            box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+            box-shadow: 0 5px 10px rgba(0, 0, 0, 0.3);
         }
         
         .btn-success {
-            background: linear-gradient(135deg, var(--secondary-color), #27ae60);
+            background: linear-gradient(135deg, var(--accent-color), #2d4ba8);
+            color: white;
+            border: 1px solid #3a5bc0;
         }
         
         .btn-success:hover {
-            background: linear-gradient(135deg, #27ae60, var(--secondary-color));
+            background: linear-gradient(135deg, #2d4ba8, var(--accent-color));
         }
         
         .btn-danger {
-            background: linear-gradient(135deg, var(--danger-color), #922b21);
+            background: linear-gradient(135deg, var(--danger-color), #a51c30);
+            color: white;
+            border: 1px solid #d42e47;
         }
         
         .btn-danger:hover {
-            background: linear-gradient(135deg, #922b21, var(--danger-color));
+            background: linear-gradient(135deg, #a51c30, var(--danger-color));
         }
         
         .btn-warning {
-            background: linear-gradient(135deg, var(--warning-color), #e67e22);
+            background: linear-gradient(135deg, var(--warning-color), #d35400);
+            color: white;
+            border: 1px solid #e67e22;
         }
         
         .btn-warning:hover {
-            background: linear-gradient(135deg, #e67e22, var(--warning-color));
+            background: linear-gradient(135deg, #d35400, var(--warning-color));
         }
         
         .numbers-container {
@@ -227,9 +273,10 @@
             font-weight: bold;
             margin-bottom: 10px;
             padding: 5px;
-            background: var(--primary-color);
-            color: white;
+            background: linear-gradient(135deg, var(--primary-color), var(--gold-dark));
+            color: var(--secondary-color);
             border-radius: 5px;
+            border: 1px solid var(--gold-light);
         }
         
         .numbers-grid {
@@ -238,8 +285,8 @@
         }
         
         .number-item {
-            background-color: var(--light-color);
-            border: 2px solid #ddd;
+            background-color: rgba(60, 60, 60, 0.8);
+            border: 2px solid #555;
             border-radius: 10px;
             padding: 12px 8px;
             text-align: center;
@@ -253,35 +300,36 @@
             display: flex;
             flex-direction: column;
             justify-content: center;
+            color: #e0e0e0;
         }
         
         .number-item:hover {
             transform: translateY(-3px);
-            box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 5px 10px rgba(212, 175, 55, 0.2);
         }
         
         .number-item.available {
-            background: linear-gradient(135deg, #e8f4fc, #d1ecf1);
+            background: linear-gradient(135deg, rgba(212, 175, 55, 0.2), rgba(184, 148, 31, 0.1));
             border-color: var(--primary-color);
-            color: var(--dark-color);
+            color: var(--primary-color);
         }
         
         .number-item.reserved {
-            background: linear-gradient(135deg, var(--warning-color), #e67e22);
+            background: linear-gradient(135deg, var(--danger-color), #a51c30);
             color: white;
-            border-color: #e67e22;
+            border-color: #d42e47;
         }
         
         .number-item.paid {
-            background: linear-gradient(135deg, var(--secondary-color), #27ae60);
+            background: linear-gradient(135deg, var(--accent-color), #2d4ba8);
             color: white;
-            border-color: #27ae60;
+            border-color: #3a5bc0;
         }
         
         .number-item.full {
-            background: linear-gradient(135deg, var(--danger-color), #922b21);
-            color: white;
-            border-color: #c0392b;
+            background: linear-gradient(135deg, #555, #333);
+            color: #999;
+            border-color: #666;
             cursor: not-allowed;
         }
         
@@ -310,18 +358,19 @@
             justify-content: space-between;
             align-items: center;
             padding: 15px;
-            border-bottom: 1px solid #eee;
+            border-bottom: 1px solid #444;
             transition: background-color 0.3s;
             border-radius: 8px;
+            background: rgba(60, 60, 60, 0.6);
         }
         
         .reservation-item:hover {
-            background-color: #f8f9fa;
+            background-color: rgba(80, 80, 80, 0.6);
         }
         
         .reservation-item.paid {
-            background-color: rgba(46, 204, 113, 0.15);
-            border-left: 4px solid var(--secondary-color);
+            background-color: rgba(30, 58, 138, 0.2);
+            border-left: 4px solid var(--accent-color);
         }
         
         .action-buttons {
@@ -337,7 +386,7 @@
         }
         
         .hidden {
-            display: none;
+            display: none !important;
         }
         
         .status-indicator {
@@ -352,33 +401,34 @@
             display: flex;
             align-items: center;
             gap: 8px;
+            color: #e0e0e0;
         }
         
         .status-color {
             width: 20px;
             height: 20px;
             border-radius: 4px;
+            border: 1px solid #555;
         }
         
         .available-color {
-            background: linear-gradient(135deg, #e8f4fc, #d1ecf1);
-            border: 1px solid var(--primary-color);
+            background: linear-gradient(135deg, var(--primary-color), var(--gold-dark));
         }
         
         .reserved-color {
-            background: linear-gradient(135deg, var(--warning-color), #e67e22);
+            background: linear-gradient(135deg, var(--danger-color), #a51c30);
         }
         
         .paid-color {
-            background: linear-gradient(135deg, var(--secondary-color), #27ae60);
+            background: linear-gradient(135deg, var(--accent-color), #2d4ba8);
         }
         
         .full-color {
-            background: linear-gradient(135deg, var(--danger-color), #922b21);
+            background: linear-gradient(135deg, #555, #333);
         }
         
         .user-reservation {
-            background: linear-gradient(135deg, #e8f4fc, #d1ecf1);
+            background: rgba(60, 60, 60, 0.6);
             border-radius: 8px;
             padding: 20px;
             margin-top: 20px;
@@ -416,11 +466,16 @@
         .numbers-editor textarea {
             height: 100px;
             font-family: monospace;
+            background: rgba(60, 60, 60, 0.8);
+            color: #e0e0e0;
+            border: 1px solid #555;
         }
         
         .cancel-btn-disabled {
-            background: linear-gradient(135deg, #95a5a6, #7f8c8d) !important;
+            background: linear-gradient(135deg, #555, #444) !important;
+            color: #999 !important;
             cursor: not-allowed !important;
+            border: 1px solid #666 !important;
         }
         
         .cancel-btn-disabled:hover {
@@ -438,14 +493,14 @@
             align-items: center;
             padding: 10px;
             margin-bottom: 8px;
-            background: #f8f9fa;
+            background: rgba(60, 60, 60, 0.6);
             border-radius: 6px;
             border-left: 4px solid var(--primary-color);
         }
         
         .user-reservation-item.paid {
-            background: rgba(46, 204, 113, 0.1);
-            border-left-color: var(--secondary-color);
+            background: rgba(30, 58, 138, 0.2);
+            border-left-color: var(--accent-color);
         }
         
         .admin-access {
@@ -454,19 +509,117 @@
         }
         
         .admin-login {
-            background: rgba(255, 255, 255, 0.9);
+            background: rgba(44, 44, 44, 0.9);
             padding: 20px;
             border-radius: 10px;
             display: inline-block;
+            border: 1px solid var(--primary-color);
         }
         
         .logout-btn {
-            background: linear-gradient(135deg, #95a5a6, #7f8c8d);
+            background: linear-gradient(135deg, #555, #444);
+            color: #999;
             margin-top: 10px;
+            border: 1px solid #666;
         }
         
         .logout-btn:hover {
-            background: linear-gradient(135deg, #7f8c8d, #95a5a6);
+            background: linear-gradient(135deg, #444, #555);
+        }
+        
+        /* Nuevos estilos para el formulario fijo en la parte inferior */
+        .fixed-form-container {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: rgba(44, 44, 44, 0.95);
+            padding: 20px;
+            box-shadow: 0 -5px 15px rgba(0, 0, 0, 0.4);
+            z-index: 100;
+            border-top: 3px solid var(--primary-color);
+            backdrop-filter: blur(10px);
+            color: #e0e0e0;
+        }
+        
+        .fixed-form-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+        
+        .fixed-form-content .form-group {
+            flex: 1;
+            margin-bottom: 0;
+        }
+        
+        .fixed-form-content .action-buttons {
+            margin-top: 0;
+        }
+        
+        /* Estilos para acciones de admin en números */
+        .admin-number-actions {
+            position: absolute;
+            top: 5px;
+            right: 5px;
+            display: flex;
+            gap: 5px;
+        }
+        
+        .admin-number-btn {
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            padding: 0;
+            opacity: 0;
+            transition: opacity 0.3s;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+        
+        .number-item:hover .admin-number-btn {
+            opacity: 1;
+        }
+        
+        /* Estilos para el modal de acceso administrativo */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.8);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 2000;
+        }
+        
+        .modal-content {
+            background: rgba(44, 44, 44, 0.95);
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            max-width: 400px;
+            width: 90%;
+            text-align: center;
+            border: 2px solid var(--primary-color);
+            color: #e0e0e0;
+        }
+        
+        .modal-actions {
+            display: flex;
+            gap: 10px;
+            margin-top: 20px;
+        }
+        
+        .modal-actions button {
+            flex: 1;
         }
         
         @media (max-width: 767px) {
@@ -485,6 +638,31 @@
             .numbers-column {
                 min-width: 120px;
             }
+            
+            .fixed-form-content {
+                flex-direction: column;
+                gap: 10px;
+            }
+            
+            .fixed-form-content .action-buttons {
+                width: 100%;
+                justify-content: space-between;
+            }
+            
+            .fixed-form-content .action-buttons button {
+                flex: 1;
+            }
+            
+            .admin-access-btn {
+                width: 40px;
+                height: 40px;
+                font-size: 1.5rem;
+            }
+            
+            .header-emojis {
+                font-size: 1.2rem;
+                padding: 0 15px;
+            }
         }
     </style>
 </head>
@@ -493,22 +671,14 @@
     
     <div class="container">
         <header>
+            <div class="header-emojis">
+                <div>🎰 🎲</div>
+                <div>🎯 🎰</div>
+            </div>
+            <div class="admin-access-btn" id="admin-access-btn" title="Acceso Administrativo">⚜️</div>
             <h1>BINGO ESCOBAR</h1>
             <p class="subtitle">Sistema de Reserva de Números - En Tiempo Real</p>
         </header>
-        
-        <!-- Acceso para administradores -->
-        <div class="admin-access">
-            <div class="admin-login">
-                <h3>Acceso Administrativo</h3>
-                <div class="form-group">
-                    <label for="admin-password">Contraseña:</label>
-                    <input type="password" id="admin-password" placeholder="Ingresa la contraseña">
-                </div>
-                <button id="admin-login-btn" class="btn-success">Acceder al Panel</button>
-                <button id="admin-logout-btn" class="logout-btn hidden">Cerrar Sesión</button>
-            </div>
-        </div>
         
         <div class="status-indicator">
             <div class="status-item">
@@ -552,16 +722,7 @@
                 
                 <div class="admin-actions">
                     <button id="reset-reservations" class="btn-warning">Reiniciar Todas las Reservas</button>
-                </div>
-                
-                <h3>Números Disponibles</h3>
-                <div class="numbers-container" id="admin-numbers-container">
-                    <!-- Las columnas de números se generarán dinámicamente con JavaScript -->
-                </div>
-                
-                <h3>Reservas Activas</h3>
-                <div class="reservations-list" id="admin-reservations-list">
-                    <!-- Las reservas se mostrarán aquí -->
+                    <button id="admin-logout-btn" class="logout-btn">Cerrar Sesión</button>
                 </div>
             </div>
             
@@ -578,21 +739,6 @@
                     <!-- Las columnas de números se generarán dinámicamente con JavaScript -->
                 </div>
                 
-                <!-- Este formulario solo aparece cuando se selecciona un número -->
-                <div id="name-input-section" class="hidden">
-                    <div class="user-reservation">
-                        <h3>Completar Reserva</h3>
-                        <div class="form-group">
-                            <label for="user-name-input">Ingresa tu nombre para reservar el número <span id="selected-number-display"></span>:</label>
-                            <input type="text" id="user-name-input" placeholder="Tu nombre completo">
-                        </div>
-                        <div class="action-buttons">
-                            <button id="confirm-reservation" class="btn-success">Confirmar Reserva</button>
-                            <button id="cancel-selection" class="btn-danger">Cancelar</button>
-                        </div>
-                    </div>
-                </div>
-                
                 <div id="reservation-details" class="hidden">
                     <div class="user-reservation">
                         <h3>Mis Reservas Activas</h3>
@@ -604,6 +750,35 @@
                         </div>
                     </div>
                 </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Formulario fijo en la parte inferior -->
+    <div id="name-input-section" class="fixed-form-container hidden">
+        <div class="fixed-form-content">
+            <div class="form-group">
+                <label for="user-name-input">Ingresa tu nombre para reservar el número <span id="selected-number-display"></span>:</label>
+                <input type="text" id="user-name-input" placeholder="Tu nombre completo">
+            </div>
+            <div class="action-buttons">
+                <button id="confirm-reservation" class="btn-success">Confirmar Reserva</button>
+                <button id="cancel-selection" class="btn-danger">Cancelar</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal para acceso administrativo -->
+    <div id="admin-login-modal" class="modal-overlay hidden">
+        <div class="modal-content">
+            <h3>Acceso Administrativo</h3>
+            <div class="form-group">
+                <label for="admin-password">Contraseña:</label>
+                <input type="password" id="admin-password" placeholder="Ingresa la contraseña">
+            </div>
+            <div class="modal-actions">
+                <button id="admin-login-btn" class="btn-success">Acceder</button>
+                <button id="cancel-admin-login" class="btn-danger">Cancelar</button>
             </div>
         </div>
     </div>
@@ -674,7 +849,6 @@
                     appState.reservations = Object.values(data);
                     updateNumbersFromReservations();
                     renderNumbers();
-                    renderAdminReservations();
                     
                     // Si el usuario tiene reservas activas, mostrarlas
                     if (appState.currentUserName) {
@@ -796,55 +970,7 @@
         }
 
         function renderNumbers() {
-            renderAdminNumbers();
             renderUserNumbers();
-        }
-
-        function renderAdminNumbers() {
-            const container = document.getElementById('admin-numbers-container');
-            if (!container) return;
-            
-            container.innerHTML = '';
-            
-            for (let col = 0; col < appState.columnsNumber; col++) {
-                const columnElement = document.createElement('div');
-                columnElement.className = 'numbers-column';
-                
-                const headerElement = document.createElement('div');
-                headerElement.className = 'column-header';
-                headerElement.textContent = `Columna ${col + 1}`;
-                columnElement.appendChild(headerElement);
-                
-                const gridElement = document.createElement('div');
-                gridElement.className = 'numbers-grid';
-                
-                const columnNumbers = appState.numbers.filter(n => n.column === col);
-                
-                columnNumbers.forEach(number => {
-                    const numberElement = document.createElement('div');
-                    numberElement.className = 'number-item';
-                    
-                    if (number.reservedBy !== null) {
-                        if (number.paid) {
-                            numberElement.classList.add('paid');
-                        } else {
-                            numberElement.classList.add('reserved');
-                        }
-                    } else {
-                        numberElement.classList.add('available');
-                    }
-                    
-                    numberElement.innerHTML = `
-                        <div class="number-value">${number.id}</div>
-                        ${number.reservedBy ? `<div class="reserved-by">${number.reservedBy}</div>` : ''}
-                    `;
-                    
-                    gridElement.appendChild(numberElement);
-                });
-                
-                columnElement.appendChild(gridElement);
-                container.appendChild(columnElement);
-            }
         }
 
         function renderUserNumbers() {
@@ -882,6 +1008,34 @@
                             <div class="reserved-by">${number.reservedBy}</div>
                         `;
                         numberElement.style.cursor = 'default';
+                        
+                        // Añadir botones de administración si está logueado
+                        if (appState.adminLoggedIn) {
+                            const adminActions = document.createElement('div');
+                            adminActions.className = 'admin-number-actions';
+                            
+                            const markPaidBtn = document.createElement('button');
+                            markPaidBtn.className = 'admin-number-btn btn-success';
+                            markPaidBtn.innerHTML = '✓';
+                            markPaidBtn.title = number.paid ? 'Marcar como no pagado' : 'Marcar como pagado';
+                            markPaidBtn.onclick = (e) => {
+                                e.stopPropagation();
+                                markAsPaid(number.uniqueId);
+                            };
+                            
+                            const cancelBtn = document.createElement('button');
+                            cancelBtn.className = 'admin-number-btn btn-danger';
+                            cancelBtn.innerHTML = '✕';
+                            cancelBtn.title = 'Cancelar reserva';
+                            cancelBtn.onclick = (e) => {
+                                e.stopPropagation();
+                                cancelReservation(number.uniqueId);
+                            };
+                            
+                            adminActions.appendChild(markPaidBtn);
+                            adminActions.appendChild(cancelBtn);
+                            numberElement.appendChild(adminActions);
+                        }
                     } else {
                         numberElement.classList.add('available');
                         numberElement.innerHTML = `
@@ -897,45 +1051,6 @@
                 columnElement.appendChild(gridElement);
                 container.appendChild(columnElement);
             }
-        }
-
-        function renderAdminReservations() {
-            const list = document.getElementById('admin-reservations-list');
-            if (!list) return;
-            
-            list.innerHTML = '';
-            
-            const activeReservations = appState.reservations.filter(r => !r.cancelled);
-            
-            if (activeReservations.length === 0) {
-                list.innerHTML = '<p>No hay reservas activas</p>';
-                return;
-            }
-            
-            activeReservations.forEach(reservation => {
-                const reservationElement = document.createElement('div');
-                reservationElement.className = 'reservation-item';
-                
-                if (reservation.paid) {
-                    reservationElement.classList.add('paid');
-                }
-                
-                reservationElement.innerHTML = `
-                    <div>
-                        <strong>Número: ${reservation.numberId} - Columna: ${reservation.column + 1}</strong><br>
-                        <span>Reservado por: ${reservation.userName}</span><br>
-                        <small>${new Date(reservation.timestamp).toLocaleString()}</small>
-                    </div>
-                    <div class="action-buttons">
-                        <button class="${reservation.paid ? 'btn-success' : ''}" 
-                                onclick="markAsPaid(${reservation.id})">
-                            ${reservation.paid ? 'Pagado ✓' : 'Marcar como Pagado'}
-                        </button>
-                    </div>
-                `;
-                
-                list.appendChild(reservationElement);
-            });
         }
 
         // ================= FUNCIONES DE USUARIO =================
@@ -1005,7 +1120,6 @@
             await saveToFirebase();
             
             renderNumbers();
-            renderAdminReservations();
             
             const nameInputSection = document.getElementById('name-input-section');
             if (nameInputSection) nameInputSection.classList.add('hidden');
@@ -1035,7 +1149,6 @@
             await saveToFirebase();
             
             renderNumbers();
-            renderAdminReservations();
             showUserReservations(appState.currentUserName);
             
             alert('Reserva cancelada exitosamente');
@@ -1066,7 +1179,6 @@
                 
                 await saveToFirebase();
                 renderNumbers();
-                renderAdminReservations();
                 showUserReservations(appState.currentUserName);
                 
                 alert(`Todas tus ${userReservations.length} reservas han sido canceladas`);
@@ -1104,7 +1216,7 @@
                     <div>
                         <strong>Número: ${reservation.numberId}</strong><br>
                         <small>Reservado el: ${new Date(reservation.timestamp).toLocaleString()}</small>
-                        ${reservation.paid ? '<br><span style="color: #27ae60; font-weight: bold;">✓ PAGADO</span>' : ''}
+                        ${reservation.paid ? '<br><span style="color: #3a5bc0; font-weight: bold;">✓ PAGADO</span>' : ''}
                     </div>
                     <div class="action-buttons">
                         ${!reservation.paid ? 
@@ -1121,6 +1233,19 @@
         }
 
         // ================= FUNCIONES ADMINISTRATIVAS =================
+        function showAdminLoginModal() {
+            const modal = document.getElementById('admin-login-modal');
+            const passwordInput = document.getElementById('admin-password');
+            
+            if (modal) modal.classList.remove('hidden');
+            if (passwordInput) passwordInput.value = '';
+        }
+
+        function hideAdminLoginModal() {
+            const modal = document.getElementById('admin-login-modal');
+            if (modal) modal.classList.add('hidden');
+        }
+
         function adminLogin() {
             const passwordInput = document.getElementById('admin-password');
             if (!passwordInput) return;
@@ -1129,11 +1254,15 @@
             if (password === appState.adminPassword) {
                 appState.adminLoggedIn = true;
                 const adminPanel = document.getElementById('admin-panel');
-                const logoutBtn = document.getElementById('admin-logout-btn');
                 
                 if (adminPanel) adminPanel.classList.remove('hidden');
-                if (logoutBtn) logoutBtn.classList.remove('hidden');
                 if (passwordInput) passwordInput.value = '';
+                
+                hideAdminLoginModal();
+                
+                // Volver a renderizar números para mostrar botones de admin
+                renderNumbers();
+                
                 alert('Acceso concedido al panel de administración');
             } else {
                 alert('Contraseña incorrecta');
@@ -1143,10 +1272,12 @@
         function adminLogout() {
             appState.adminLoggedIn = false;
             const adminPanel = document.getElementById('admin-panel');
-            const logoutBtn = document.getElementById('admin-logout-btn');
             
             if (adminPanel) adminPanel.classList.add('hidden');
-            if (logoutBtn) logoutBtn.classList.add('hidden');
+            
+            // Volver a renderizar números para ocultar botones de admin
+            renderNumbers();
+            
             alert('Sesión administrativa cerrada');
         }
 
@@ -1169,7 +1300,6 @@
                 initializeNumbers();
                 await saveToFirebase();
                 renderNumbers();
-                renderAdminReservations();
                 alert(`Números actualizados: ${appState.availableNumbers.join(', ')}`);
             } else {
                 alert('Por favor ingresa números válidos separados por comas');
@@ -1209,7 +1339,6 @@
                 initializeNumbers();
                 await saveToFirebase();
                 renderNumbers();
-                renderAdminReservations();
                 
                 const nameInputSection = document.getElementById('name-input-section');
                 const reservationDetails = document.getElementById('reservation-details');
@@ -1221,13 +1350,13 @@
             }
         }
 
-        async function markAsPaid(reservationId) {
+        async function markAsPaid(uniqueId) {
             if (!appState.adminLoggedIn) {
                 alert('Acceso denegado. Debes iniciar sesión como administrador.');
                 return;
             }
 
-            const reservation = appState.reservations.find(r => r.id === reservationId);
+            const reservation = appState.reservations.find(r => r.uniqueId === uniqueId && !r.cancelled);
             if (reservation) {
                 reservation.paid = !reservation.paid;
                 
@@ -1237,11 +1366,39 @@
                 }
                 
                 await saveToFirebase();
-                renderAdminReservations();
                 renderNumbers();
                 
                 if (appState.currentUserName && reservation.userName === appState.currentUserName) {
                     showUserReservations(appState.currentUserName);
+                }
+            }
+        }
+
+        async function cancelReservation(uniqueId) {
+            if (!appState.adminLoggedIn) {
+                alert('Acceso denegado. Debes iniciar sesión como administrador.');
+                return;
+            }
+
+            const reservation = appState.reservations.find(r => r.uniqueId === uniqueId && !r.cancelled);
+            if (reservation) {
+                if (confirm(`¿Estás seguro de que deseas cancelar la reserva del número ${reservation.numberId} por ${reservation.userName}?`)) {
+                    reservation.cancelled = true;
+                    
+                    const number = appState.numbers.find(n => n.uniqueId === reservation.uniqueId);
+                    if (number) {
+                        number.reservedBy = null;
+                        number.paid = false;
+                    }
+                    
+                    await saveToFirebase();
+                    renderNumbers();
+                    
+                    if (appState.currentUserName && reservation.userName === appState.currentUserName) {
+                        showUserReservations(appState.currentUserName);
+                    }
+                    
+                    alert('Reserva cancelada exitosamente');
                 }
             }
         }
@@ -1283,15 +1440,22 @@
             document.getElementById('cancel-all-reservations').addEventListener('click', cancelAllUserReservations);
             document.getElementById('admin-login-btn').addEventListener('click', adminLogin);
             document.getElementById('admin-logout-btn').addEventListener('click', adminLogout);
+            document.getElementById('admin-access-btn').addEventListener('click', showAdminLoginModal);
+            document.getElementById('cancel-admin-login').addEventListener('click', hideAdminLoginModal);
+            
+            // Cerrar modal al hacer clic fuera
+            document.getElementById('admin-login-modal').addEventListener('click', function(e) {
+                if (e.target === this) {
+                    hideAdminLoginModal();
+                }
+            });
+            
+            // Asegurar que el panel de administración esté oculto al inicio
+            document.getElementById('admin-panel').classList.add('hidden');
             
             // Renderizar interfaz
             updateNumbersEditor();
             renderNumbers();
-            renderAdminReservations();
-            
-            // Ocultar elementos iniciales
-            document.getElementById('admin-panel').classList.add('hidden');
-            document.getElementById('admin-logout-btn').classList.add('hidden');
         }
 
         // Inicializar la aplicación cuando se carga la página
